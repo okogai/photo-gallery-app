@@ -9,6 +9,8 @@ export interface User {
   avatar: string;
 }
 
+export type UserMutation = Omit<User, "token" | "role">
+
 export interface RegisterMutation {
   email: string;
   password: string;
@@ -41,4 +43,11 @@ export interface LoginMutation {
 
 export interface GlobalError {
   error: string;
+}
+
+export interface Image {
+  _id: string;
+  title: string;
+  image: string;
+  user: UserMutation;
 }

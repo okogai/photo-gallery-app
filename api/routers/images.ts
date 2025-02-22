@@ -44,4 +44,34 @@ imagesRouter.post('/', auth, imagesUpload.single('image'), async (req, res, next
     }
 });
 
+imagesRouter.delete('/:id', auth, async (req, res, next) => {
+    const {id} = req.params;
+
+    const reqWithUser = req as RequestWithUser;
+
+    if (!reqWithUser.user) {
+        res.status(401).send({error: 'Token not provided!'});
+        return;
+    }
+
+    try {
+        const image = await Image.findById(id);
+
+        if (!image) {
+            res.status(404).json({error: "Image not found"});
+            return;
+        }
+
+        if (reqWithUser.user.role !== 'admin' && image.user._id !== reqWithUser.user._id) {
+            res.status(403).json({error: "You have not permissions"});
+            return;
+        }
+        
+        await Image.findByIdAndDelete(id);
+        res.send({message: "Image deleted"});
+    } catch (e) {
+        next(e);
+    }
+});
+
 export default imagesRouter;
