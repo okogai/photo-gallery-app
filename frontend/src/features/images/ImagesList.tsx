@@ -131,7 +131,7 @@ const ImagesList = () => {
             <img
               src={selectedImage}
               alt="Preview"
-              style={{ height: "80vh", borderRadius: 8 }}
+              style={{ height: "80vh", width: "100%", borderRadius: 8 }}
             />
           )}
         </DialogContent>
