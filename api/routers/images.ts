@@ -62,7 +62,7 @@ imagesRouter.delete('/:id', auth, async (req, res, next) => {
             return;
         }
 
-        if (reqWithUser.user.role !== 'admin' && image.user._id !== reqWithUser.user._id) {
+        if (reqWithUser.user.role !== 'admin' && image.user._id.toString() !== reqWithUser.user._id.toString()) {
             res.status(403).json({error: "You have not permissions"});
             return;
         }
