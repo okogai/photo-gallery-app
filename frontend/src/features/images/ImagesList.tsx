@@ -17,7 +17,7 @@ import {
 import Grid from '@mui/material/Grid2';
 import { IconButton } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import Loader from '../../components/UI/Loader.tsx';
 import { selectUser } from '../users/userSlice.ts';
 import { toast } from 'react-toastify';
@@ -30,6 +30,7 @@ const ImagesList = () => {
   const deleteLoading = useAppSelector(selectDeleteImageLoading);
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
+  const location = useLocation();
 
   const [open, setOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -73,6 +74,14 @@ const ImagesList = () => {
 
   return (
     <Container sx={{ mt: 4 }}>
+      <Typography variant="h4" align="center" sx={{ mb: 4 }}>
+        {location.pathname === '/'
+          ? 'All images'
+          : (images && images.length > 0
+            ? `Gallery of ${images[0].user.displayName}`
+            : 'No images yet')
+        }
+      </Typography>
       <Grid container spacing={3}>
         {images && images.map((image) => (
           <Grid size={4} key={image._id}>
