@@ -1,16 +1,19 @@
 import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
 import { selectDeleteImageLoading, selectImages, selectImagesLoading } from './imageSlice.ts';
 import { useEffect, useState } from 'react';
-import { deleteImage, fetchImages } from './imageThunk.ts';
-import { Box, Button, Card, CardContent, CardMedia, CircularProgress, Container, Dialog, DialogContent, Typography } from '@mui/material';
+import { deleteImage, fetchImages, fetchImagesByUser } from './imageThunk.ts';
+import { Box, Card, CardContent, CardMedia, CircularProgress, Container, Dialog, DialogContent, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import { Link } from 'react-router-dom';
+import { IconButton } from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
+import { Link, useParams } from 'react-router-dom';
 import Loader from '../../components/UI/Loader.tsx';
 import { selectUser } from '../users/userSlice.ts';
 import { toast } from 'react-toastify';
 import { GlobalError } from '../../typed';
 
 const ImagesList = () => {
+  const { userId } = useParams();
   const images = useAppSelector(selectImages);
   const loading = useAppSelector(selectImagesLoading);
   const deleteLoading = useAppSelector(selectDeleteImageLoading);
@@ -21,13 +24,21 @@ const ImagesList = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
   useEffect(() => {
-    dispatch(fetchImages());
-  }, [dispatch]);
+    if (userId) {
+      dispatch(fetchImagesByUser(userId));
+    } else {
+      dispatch(fetchImages());
+    }
+  }, [dispatch, userId]);
 
   const handleDelete = async (imageId: string) => {
     try {
       await dispatch(deleteImage(imageId)).unwrap();
-      await dispatch(fetchImages());
+      if (userId) {
+        dispatch(fetchImagesByUser(userId));
+      } else {
+        dispatch(fetchImages());
+      }
       toast.success("Image deleted successfully");
     } catch (error) {
       const err = error as GlobalError;
@@ -71,7 +82,7 @@ const ImagesList = () => {
                   <Typography variant="h6" sx={{ marginRight: 1 }}>
                     by:
                   </Typography>
-                  <Link to={`/images/${image._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                  <Link to={`/images/author/${image.user._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                     <Typography variant="h6" sx={{ cursor: 'pointer', '&:hover': { color: 'primary.main' } }}>
                       {image.user.displayName}
                     </Typography>
@@ -79,14 +90,13 @@ const ImagesList = () => {
                 </Box>
                 <Box>
                   {user && (user.role === "admin" || user._id === image.user._id) && (
-                    <Button
-                      variant="contained"
-                      color="error"
+                    <IconButton
                       onClick={() => handleDelete(image._id)}
                       disabled={deleteLoading}
+                      color="error"
                     >
-                      {deleteLoading ? <CircularProgress size={24} /> : "Delete"}
-                    </Button>
+                      {deleteLoading ? <CircularProgress size={24} color="inherit" /> : <ClearIcon />}
+                    </IconButton>
                   )}
                 </Box>
               </CardContent>

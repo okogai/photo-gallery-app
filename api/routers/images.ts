@@ -5,8 +5,14 @@ import Image from "../models/Image";
 
 const imagesRouter = express.Router();
 
-imagesRouter.get('/', imagesUpload.single('image'), async (_req, res, next) => {
+imagesRouter.get('/', imagesUpload.single('image'), async (req, res, next) => {
     try {
+        if(req.query.user) {
+            const results = await Image.find({user: req.query.user}).populate('user', 'email displayName avatar');
+            res.send(results);
+            return;
+        }
+
         const results = await Image.find().populate('user', 'email displayName avatar');
         res.send(results);
     } catch (e) {

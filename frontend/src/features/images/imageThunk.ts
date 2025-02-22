@@ -11,6 +11,14 @@ export const fetchImages = createAsyncThunk<Image[]>(
   },
 );
 
+export const fetchImagesByUser = createAsyncThunk<Image[], string>(
+  "images/fetchImagesByUser",
+  async (id: string) => {
+    const response = await axiosAPI.get(`/images/?user=${id}`);
+    return response.data;
+  },
+);
+
 export const deleteImage = createAsyncThunk<void, string, { rejectValue: GlobalError }>(
   "images/deleteImage", async (id: string, { rejectWithValue }) => {
     try {

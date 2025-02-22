@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Avatar, Button, Menu, MenuItem } from "@mui/material";
+import { Avatar, Button, Divider, Menu, MenuItem } from '@mui/material';
 import { User } from "../../../typed";
 import { useAppDispatch } from "../../../app/hooks.ts";
 import { unsetUser } from "../../../features/users/userSlice.ts";
 import { logout } from "../../../features/users/userThunk.ts";
 import Grid from "@mui/material/Grid2";
-import { useNavigate } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 
 interface Props {
   user: User;
@@ -13,7 +13,6 @@ interface Props {
 
 const UserMenu: React.FC<Props> = ({ user }) => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -27,11 +26,23 @@ const UserMenu: React.FC<Props> = ({ user }) => {
   const handleLogout = () => {
     dispatch(logout());
     dispatch(unsetUser());
-    navigate("login");
   };
 
   return (
     <Grid display="flex" alignItems="center">
+      <Button color="inherit" component={NavLink} to={`/images/author/${user._id}`}>
+        My images
+      </Button>
+      <Divider
+        orientation="vertical"
+        flexItem
+        sx={{
+          borderColor: "white",
+          height: "2rem",
+          alignSelf: "center",
+          marginX: 1,
+        }}
+      />
       <Button onClick={handleClick} color="inherit">
         Hello, {user.displayName ? user.displayName : user.email}
       </Button>

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Image } from '../../typed';
-import { deleteImage, fetchImages } from './imageThunk.ts';
+import { deleteImage, fetchImages, fetchImagesByUser } from './imageThunk.ts';
 import { RootState } from '../../app/store.ts';
 
 interface ImagesState {
@@ -27,7 +27,7 @@ export const imagesSlice = createSlice({
     builder.addCase(fetchImages.pending, (state) => {
       state.fetchImagesLoading = true;
     });
-    builder.addCase( fetchImages.fulfilled,  (state, action ) => {
+    builder.addCase( fetchImages.fulfilled,  (state, action) => {
         state.fetchImagesLoading = false;
         state.images = action.payload;
       },
@@ -43,6 +43,17 @@ export const imagesSlice = createSlice({
       },
     );
     builder.addCase(deleteImage.rejected, (state) => {
+      state.deleteImageLoading = false;
+    });
+    builder.addCase(fetchImagesByUser.pending, (state) => {
+      state.deleteImageLoading = true;
+    });
+    builder.addCase(fetchImagesByUser.fulfilled,  (state, action ) => {
+        state.deleteImageLoading = false;
+        state.images = action.payload;
+      },
+    );
+    builder.addCase(fetchImagesByUser.rejected, (state) => {
       state.deleteImageLoading = false;
     });
   },
