@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import mongoDb from "./mongoDb";
 import config from "./config";
 import usersRouter from "./routers/users";
+import imagesRouter from "./routers/images";
 
 const app = express();
 const port = config.port;
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use('/public', express.static(config.publicPath));
 
 app.use('/users', usersRouter);
+app.use('/images', imagesRouter);
 
 const run = async () => {
     mongoose.set('strictQuery', false);
