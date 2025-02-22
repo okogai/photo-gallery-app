@@ -7,9 +7,11 @@ interface Props {
   name: string;
   label: string;
   filename: string;
+  error?: boolean;
+  helperText?: string;
 }
 
-const FileInput: React.FC<Props> = ({ onChange, name, label, filename }) => {
+const FileInput: React.FC<Props> = ({ onChange, name, label, filename, error, helperText }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,6 +49,8 @@ const FileInput: React.FC<Props> = ({ onChange, name, label, filename }) => {
             size="small"
             label={label}
             value={filename}
+            error={error}
+            helperText={helperText}
           />
         </Grid>
         <Grid>

@@ -2,7 +2,18 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks.ts';
 import { selectDeleteImageLoading, selectImages, selectImagesLoading } from './imageSlice.ts';
 import { useEffect, useState } from 'react';
 import { deleteImage, fetchImages, fetchImagesByUser } from './imageThunk.ts';
-import { Box, Card, CardContent, CardMedia, CircularProgress, Container, Dialog, DialogContent, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  CircularProgress,
+  Container,
+  Dialog, DialogActions,
+  DialogContent,
+  Typography
+} from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { IconButton } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
@@ -106,12 +117,24 @@ const ImagesList = () => {
       </Grid>
 
       <Dialog open={open} onClose={handleClose} maxWidth="lg">
-        <DialogContent sx={{padding: 2 }}>
+        <DialogContent sx={{ padding: 2, display: 'flex', justifyContent: 'center' }}>
           {selectedImage && (
-            <img src={selectedImage} alt="Preview" style={{ maxHeight: "80vh", borderRadius: 8 }} />
+            <img
+              src={selectedImage}
+              alt="Preview"
+              style={{ height: "80vh", borderRadius: 8 }}
+            />
           )}
         </DialogContent>
+        <DialogActions sx={{ justifyContent: 'center' }}>
+          <Button
+            onClick={handleClose}
+          >
+            Close
+          </Button>
+        </DialogActions>
       </Dialog>
+
     </Container>
   );
 };

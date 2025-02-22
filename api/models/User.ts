@@ -63,7 +63,10 @@ const UserSchema = new Schema<
         type: String,
         required: [true, 'Token is required'],
     },
-    displayName: String,
+    displayName: {
+        type: String,
+        required: [true, 'Display name is required'],
+    },
     googleID: String,
     facebookID: String,
     avatar: String,

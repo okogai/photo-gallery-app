@@ -1,23 +1,26 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { Image } from '../../typed';
-import { deleteImage, fetchImages, fetchImagesByUser } from './imageThunk.ts';
+import { addImage, deleteImage, fetchImages, fetchImagesByUser } from './imageThunk.ts';
 import { RootState } from '../../app/store.ts';
 
 interface ImagesState {
   images: Image[] | null;
   fetchImagesLoading: boolean;
   deleteImageLoading: boolean;
+  addImageLoading: boolean;
 }
 
 const initialState: ImagesState = {
   images: null,
   fetchImagesLoading: false,
   deleteImageLoading: false,
+  addImageLoading: false,
 };
 
 export const selectImages = (state: RootState) => state.images.images;
 export const selectImagesLoading = (state: RootState) => state.images.fetchImagesLoading;
 export const selectDeleteImageLoading = (state: RootState) => state.images.deleteImageLoading;
+export const selectAddImageLoading = (state: RootState) => state.images.addImageLoading;
 
 export const imagesSlice = createSlice({
   name: "images",
@@ -55,6 +58,16 @@ export const imagesSlice = createSlice({
     );
     builder.addCase(fetchImagesByUser.rejected, (state) => {
       state.deleteImageLoading = false;
+    });
+    builder.addCase(addImage.pending, (state) => {
+      state.addImageLoading = true;
+    });
+    builder.addCase(addImage.fulfilled,  (state ) => {
+        state.addImageLoading = false;
+      },
+    );
+    builder.addCase(addImage.rejected, (state) => {
+      state.addImageLoading = false;
     });
   },
 });

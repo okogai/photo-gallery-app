@@ -30,6 +30,19 @@ const UserMenu: React.FC<Props> = ({ user }) => {
 
   return (
     <Grid display="flex" alignItems="center">
+      <Button color="inherit" component={NavLink} to='/add-image'>
+        Add image
+      </Button>
+      <Divider
+        orientation="vertical"
+        flexItem
+        sx={{
+          borderColor: "white",
+          height: "2rem",
+          alignSelf: "center",
+          marginX: 1,
+        }}
+      />
       <Button color="inherit" component={NavLink} to={`/images/author/${user._id}`}>
         My images
       </Button>

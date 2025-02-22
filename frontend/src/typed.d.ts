@@ -51,3 +51,8 @@ export interface Image {
   image: string;
   user: UserMutation;
 }
+
+export interface ImageMutation {
+  title: string;
+  image: File | null;
+}
