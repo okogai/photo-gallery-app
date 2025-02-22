@@ -35,7 +35,7 @@ const RegisterPage = () => {
   });
 
   const [filename, setFilename] = useState("");
-  const [errors, setErrors] = useState<{email?: string}>({});
+  const [errors, setErrors] = useState<{ email?: string }>({});
 
   const fileInputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, files } = e.target;
@@ -49,14 +49,17 @@ const RegisterPage = () => {
   };
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {name, value} = e.target;
-    setForm(prevState => ({...prevState, [name]: value}));
+    const { name, value } = e.target;
+    setForm((prevState) => ({ ...prevState, [name]: value }));
 
-    if (name === 'email') {
+    if (name === "email") {
       if (regEmail.test(value)) {
-        setErrors(prevState => ({...prevState, email: ''}));
+        setErrors((prevState) => ({ ...prevState, email: "" }));
       } else {
-        setErrors(prevState => ({...prevState, email: 'Invalid email format'}));
+        setErrors((prevState) => ({
+          ...prevState,
+          email: "Invalid email format",
+        }));
       }
     }
   };
@@ -112,8 +115,8 @@ const RegisterPage = () => {
                 name="email"
                 value={form.email}
                 onChange={inputChangeHandler}
-                error={Boolean(getFieldError('email')) || Boolean(errors.email)}
-                helperText={getFieldError('email') || errors.email}
+                error={Boolean(getFieldError("email")) || Boolean(errors.email)}
+                helperText={getFieldError("email") || errors.email}
               />
             </Grid>
             <Grid size={12}>

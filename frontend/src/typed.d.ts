@@ -9,7 +9,7 @@ export interface User {
   avatar: string;
 }
 
-export type UserMutation = Omit<User, "token" | "role">
+export type UserMutation = Omit<User, "token" | "role">;
 
 export interface RegisterMutation {
   email: string;

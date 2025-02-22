@@ -11,7 +11,14 @@ interface Props {
   helperText?: string;
 }
 
-const FileInput: React.FC<Props> = ({ onChange, name, label, filename, error, helperText }) => {
+const FileInput: React.FC<Props> = ({
+  onChange,
+  name,
+  label,
+  filename,
+  error,
+  helperText,
+}) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {

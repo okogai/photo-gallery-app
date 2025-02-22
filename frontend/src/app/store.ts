@@ -11,7 +11,7 @@ import {
   REGISTER,
   REHYDRATE,
 } from "redux-persist";
-import { imagesReducer } from '../features/images/imageSlice.ts';
+import { imagesReducer } from "../features/images/imageSlice.ts";
 
 const usersPersistConfig = {
   key: "store:users",
